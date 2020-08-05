@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "HTML 4.01 Transitional">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>duck.lsp</title>
+
+<link rel="stylesheet" type="text/css" href="newlispdoc.css" />
+</head>
+
+<body style="margin: 20px;" text="#111111" bgcolor="#FFFFFF" 
+            link="#376590" vlink="#551A8B" alink="#ffAA28">
+<blockquote>
+<center><h1>duck.lsp</h1></center>
+<p><a href="index.html">Module index</a></p><br/>
+<h2>Module:&nbsp;duck.lsp</h2><p>database interface modules</p>
+<b>Version: </b>1.0 initial version 05 august 2020<br/>
+<br/><br/>
+ <h2>DuckDB database bindings for newlisp</h2>
+<br/><br/>
+ <h3> "DuckDB is an embeddable SQL OLAP database management system" </h3>
+<br/><br/>
+ Look at https://duckdb.org for a detailed desriptions and documentation
+<br/><br/>
+ To use this module include the following <tt>load</tt> statement at the
+ beginning of the program file:
+ <pre>
+ (load "<em>your directory</em>/duck.lsp")
+ </pre>
+ Test the module:
+ <pre>
+ (duck:test)
+ </pre>
+<br/><br/>
+ You need the DuckDB C dynamic library.
+ Download from https://duckdb.org/docs/installation/ for your OS
+ See below where the module looks for the library, change as desired\
+<br/><br/>
+ "/usr/local/lib/libduckdb.so"  Linux
+<br/><br/>
+ "/usr/local/share/duckdb/libduckdb.dylib"  Mac OSX
+<br/><br/>
+ "libduckdb.dll"  Windows DLL path and current directory
+<br/><br/>
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_open"></a><h3><font color=#CC0000>duck:open</font></h3>
+<b>syntax: (<font color=#CC0000>duck:open</font> [<em>str-db-name</em>])</b><br/>
+<b>parameter: </b><em>str-db-name</em> - The name of the database.<br/>
+<p><b>return: </b>A database handle (discard), or <tt>nil</tt> on failure.</p>
+ Opens or creates a database and a connection. If the database does exist it gets opened, 
+ else a new database with the name given is created.
+ If no database is given an in memory database is created.
+ If trying to open a database that already has been opened 
+ "a database is already open" is returned
+
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_close"></a><h3><font color=#CC0000>duck:close</font></h3>
+<b>syntax: (<font color=#CC0000>duck:close</font>)</b><br/>
+ Closes the currently open database and connection
+
+
+ Creates a connection to the specified database. [OUT: connection]
+ duckdb_state duckdb_connect(duckdb_database database, duckdb_connection *out_connection);
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_sql"></a><h3><font color=#CC0000>duck:sql</font></h3>
+<b>syntax: (<font color=#CC0000>duck:sql</font> <em>str-sql</em>)</b><br/>
+<b>parameter: </b><em>str-sql</em> - The SQL statement.<br/>
+<br/><br/>
+ Executes the SQL statement in <em>str-sql</em>. For <tt>select</tt> statements a table
+ of the result set is returned or <tt>()</tt> for the empty set. 
+ On failure an error text is returned 
+<br/><br/>
+ Parameter substitution is not supported (yet) by this module
+<br/><br/>
+ Warning! BLOB's are not supported (yet), will crash if BLOB column is selected
+<br/><br/>
+<b>Example:</b><blockquote><pre> ; traditional usage 
+ (duck:sql "select * from persons where age &gt; 18;") </pre></blockquote>
+ default functor 
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_columns"></a><h3><font color=#CC0000>duck:columns</font></h3>
+<b>syntax: (<font color=#CC0000>duck:columns</font> <em>table-name</em>)</b><br/>
+<p><b>return: </b>A list of all columns with types of the table</p>
+ Describes table with all columns
+ Returns list with name of column, type,is nullable (yes/no), is key(1/0), default value, extra 
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_tables"></a><h3><font color=#CC0000>duck:tables</font></h3>
+<b>syntax: (<font color=#CC0000>duck:tables</font>)</b><br/>
+<p><b>return: </b>A list of table names.</p>
+ Returns a list of all tables in connected database
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_colnames"></a><h3><font color=#CC0000>duck:colnames</font></h3>
+<b>syntax: (<font color=#CC0000>duck:colnames</font>)</b><br/>
+<p><b>return: </b>A list of column header names.</p>
+ Returns a list of column header names for the last query. This is
+ a function wrapper around the internal variable <tt>duck:col-names</tt>.
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_coltypes"></a><h3><font color=#CC0000>duck:coltypes</font></h3>
+<b>syntax: (<font color=#CC0000>duck:coltypes</font>)</b><br/>
+<p><b>return: </b>A list of column type names.</p>
+ Returns a list of column type names for the last query. 
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_create-from-csv"></a><h3><font color=#CC0000>duck:create-from-csv</font></h3>
+<b>syntax: (<font color=#CC0000>duck:create-from-csv</font> <em>csv-file</em> <em>table-name</em>)</b><br/>
+ fast csv import, will create new table and guess csv delimiter and types of columns
+ 
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_import-from-csv"></a><h3><font color=#CC0000>duck:import-from-csv</font></h3>
+<b>syntax: (<font color=#CC0000>duck:import-from-csv</font> <em>file</em> <em>table-name</em> [<em>delimiter</em> <em>header</em>])</b><br/>
+ fast csv import into existing table, optionally set delimiter, defaults to comma). 
+ optionally indicate it the file has a header line, defaults to true
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="duck_export-to-csv"></a><h3><font color=#CC0000>duck:export-to-csv</font></h3>
+<b>syntax: (<font color=#CC0000>duck:export-to-csv</font> <em>file</em> <em>table</em> [<em>delimiter</em> <em>header</em>])</b><br/>
+ export table to csv file, optionally set delimiter, defaults to comma). 
+ optionally indicate it a header line with column names is included, defaults to true
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/><center>- &part; -</center><br/>
+<center><font face='Arial' size='-2' color='#444444'>
+generated with <a href="http://newlisp.org">newLISP</a>&nbsp;
+and <a href="http://newlisp.org/newLISPdoc.html">newLISPdoc</a>
+</font></center>
+</blockquote>
+</body>
+</html>
