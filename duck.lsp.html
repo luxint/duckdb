@@ -33,7 +33,7 @@
 <br/><br/>
  You need the DuckDB C dynamic library.
  Download from https://duckdb.org/docs/installation/ for your OS
- See below where the module looks for the library, change as desired\
+ See below where the module looks for the library, change as desired.
 <br/><br/>
  "/usr/local/lib/libduckdb.so"  Linux
 <br/><br/>
@@ -45,12 +45,15 @@
 <a name="duck_open"></a><h3><font color=#CC0000>duck:open</font></h3>
 <b>syntax: (<font color=#CC0000>duck:open</font> [<em>str-db-name</em>])</b><br/>
 <b>parameter: </b><em>str-db-name</em> - The name of the database.<br/>
-<p><b>return: </b>A database handle (discard), or <tt>nil</tt> on failure.</p>
+<p><b>return: </b>a list with (<em>result</em> <em>message</em>)</p>
+ if result true then succesfull
  Opens or creates a database and a connection. If the database does exist it gets opened, 
  else a new database with the name given is created.
  If no database is given an in memory database is created.
  If trying to open a database that already has been opened 
- "a database is already open" is returned
+ then the list (nil "a database is already open") is returned
+ If there is already a connection ti the database then
+ the list (nil "already connected to database") is returned
 
 
 
@@ -77,10 +80,10 @@
 <a name="duck_sql"></a><h3><font color=#CC0000>duck:sql</font></h3>
 <b>syntax: (<font color=#CC0000>duck:sql</font> <em>str-sql</em>)</b><br/>
 <b>parameter: </b><em>str-sql</em> - The SQL statement.<br/>
-<br/><br/>
+<p><b>return: </b><em>list</em></p>
  Executes the SQL statement in <em>str-sql</em>. For <tt>select</tt> statements a table
  of the result set is returned or <tt>()</tt> for the empty set. 
- On failure an error text is returned 
+ On failure a list with (nil <em>error-message</em>) is returned
 <br/><br/>
  Parameter substitution is not supported (yet) by this module
 <br/><br/>
@@ -129,15 +132,15 @@
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_import-from-csv"></a><h3><font color=#CC0000>duck:import-from-csv</font></h3>
 <b>syntax: (<font color=#CC0000>duck:import-from-csv</font> <em>file</em> <em>table-name</em> [<em>delimiter</em> <em>header</em>])</b><br/>
- fast csv import into existing table, optionally set delimiter, defaults to comma). 
- optionally indicate it the file has a header line, defaults to true
+ fast csv import into existing table, optionally set delimiter, defaults to comma. 
+ optionally indicate if the file has a header line, defaults to true
 
 
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_export-to-csv"></a><h3><font color=#CC0000>duck:export-to-csv</font></h3>
 <b>syntax: (<font color=#CC0000>duck:export-to-csv</font> <em>file</em> <em>table</em> [<em>delimiter</em> <em>header</em>])</b><br/>
  export table to csv file, optionally set delimiter, defaults to comma). 
- optionally indicate it a header line with column names is included, defaults to true
+ optionally indicate if a header line with column names is included, defaults to true
 
 
 
