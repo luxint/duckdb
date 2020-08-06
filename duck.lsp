@@ -23,7 +23,7 @@
 
 ;; You need the DuckDB C dynamic library.
 ;; Download from https://duckdb.org/docs/installation/ for your OS
-;; See below where the module looks for the library, change as desired\
+;; See below where the module looks for the library, change as desired.
 ;;
 ;; "/usr/local/lib/libduckdb.so"  Linux
 ;;
@@ -72,14 +72,17 @@
 
 ;; @syntax (duck:open [<str-db-name>])
 ;; @param <str-db-name> The name of the database.
-;; @return A database handle (discard), or 'nil' on failure.
+;; @return a list with (<result> <message>)
+;; if result true then succesfull
 ;; Opens or creates a database and a connection. If the database does exist it gets opened, 
 ;; else a new database with the name given is created.
 ;; If no database is given an in memory database is created.
 ;; If trying to open a database that already has been opened 
-;; "a database is already open" is returned
+;; then the list (nil "a database is already open") is returned
+;; If there is already a connection ti the database then
+;; the list (nil "already connected to database") is returned
 
-(define (duck:open db-path)
+(define (duck:open db-p)
 	(if (not db)
 		(begin
 		  (set 'state (duckdb_open db-path dbp))
@@ -155,11 +158,11 @@
 
 ;; @syntax (duck:sql <str-sql>)
 ;; @param <str-sql> The SQL statement.
-;;
+;; @return <list>
 ;; Executes the SQL statement in <str-sql>. For 'select' statements a table
 ;; of the result set is returned or '()' for the empty set. 
-;; On failure an error text is returned 
-;;
+;; On failure a list with (nil <error-message>) is returned
+;; 
 ;; Parameter substitution is not supported (yet) by this module
 ;;
 ;; Warning! BLOB's are not supported (yet), will crash if BLOB column is selected
@@ -187,8 +190,8 @@
 	(when (> rows 0)
 		(set 'res (map (fn(r) 
                 (map (fn(c) (get-values c r (col-types c))) 
-                   (sequence 0 (- cols 1))))
-			         (sequence 0 (- rows 1)))))
+                     (sequence 0 (- cols 1))))
+			          (sequence 0 (- rows 1)))))
 	(destroy-result)
 	res))
 
@@ -241,8 +244,8 @@
 	(duck:sql (string "create table " table " as select * from read_csv_auto('" file "');")))
 
 ;; @syntax (duck:import-from-csv <file> <table-name> [<delimiter> <header>])
-;; fast csv import into existing table, optionally set delimiter, defaults to comma). 
-;; optionally indicate it the file has a header line, defaults to true
+;; fast csv import into existing table, optionally set delimiter, defaults to comma. 
+;; optionally indicate if the file has a header line, defaults to true
 
 (define (import-from-csv file table (del ",") (header true))
 	(if header
@@ -251,7 +254,7 @@
 
 ;; @syntax (duck:export-to-csv <file> <table> [<delimiter> <header>])
 ;; export table to csv file, optionally set delimiter, defaults to comma). 
-;; optionally indicate it a header line with column names is included, defaults to true
+;; optionally indicate if a header line with column names is included, defaults to true
 
 (define (export-to-csv file table (del ",") (header true))
 	(if header
