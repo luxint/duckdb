@@ -82,7 +82,7 @@
 ;; If there is already a connection ti the database then
 ;; the list (nil "already connected to database") is returned
 
-(define (duck:open db-p)
+(define (duck:open db-path)
 	(if (not db)
 		(begin
 		  (set 'state (duckdb_open db-path dbp))
