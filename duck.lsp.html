@@ -55,26 +55,13 @@
  If there is already a connection ti the database then
  the list (nil "already connected to database") is returned
 
-
-
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_close"></a><h3><font color=#CC0000>duck:close</font></h3>
 <b>syntax: (<font color=#CC0000>duck:close</font>)</b><br/>
  Closes the currently open database and connection
 
-
  Creates a connection to the specified database. [OUT: connection]
  duckdb_state duckdb_connect(duckdb_database database, duckdb_connection *out_connection);
-
-
-
-
-
-
-
-
-
-
 
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_sql"></a><h3><font color=#CC0000>duck:sql</font></h3>
@@ -100,13 +87,11 @@
  Describes table with all columns
  Returns list with name of column, type,is nullable (yes/no), is key(1/0), default value, extra 
 
-
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_tables"></a><h3><font color=#CC0000>duck:tables</font></h3>
 <b>syntax: (<font color=#CC0000>duck:tables</font>)</b><br/>
 <p><b>return: </b>A list of table names.</p>
  Returns a list of all tables in connected database
-
 
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_colnames"></a><h3><font color=#CC0000>duck:colnames</font></h3>
@@ -115,19 +100,16 @@
  Returns a list of column header names for the last query. This is
  a function wrapper around the internal variable <tt>duck:col-names</tt>.
 
-
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_coltypes"></a><h3><font color=#CC0000>duck:coltypes</font></h3>
 <b>syntax: (<font color=#CC0000>duck:coltypes</font>)</b><br/>
 <p><b>return: </b>A list of column type names.</p>
  Returns a list of column type names for the last query. 
 
-
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_create-from-csv"></a><h3><font color=#CC0000>duck:create-from-csv</font></h3>
 <b>syntax: (<font color=#CC0000>duck:create-from-csv</font> <em>csv-file</em> <em>table-name</em>)</b><br/>
- fast csv import, will create new table and guess csv delimiter and types of columns
- 
+ fast csv import, will create new table and guess csv delimiter and types of columns 
 
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_import-from-csv"></a><h3><font color=#CC0000>duck:import-from-csv</font></h3>
@@ -135,23 +117,11 @@
  fast csv import into existing table, optionally set delimiter, defaults to comma. 
  optionally indicate if the file has a header line, defaults to true
 
-
 <br/><br/><center>&sect;</center><br/>
 <a name="duck_export-to-csv"></a><h3><font color=#CC0000>duck:export-to-csv</font></h3>
 <b>syntax: (<font color=#CC0000>duck:export-to-csv</font> <em>file</em> <em>table</em> [<em>delimiter</em> <em>header</em>])</b><br/>
  export table to csv file, optionally set delimiter, defaults to comma). 
  optionally indicate if a header line with column names is included, defaults to true
-
-
-
-
-
-
-
-
-
-
-
 
 <br/><br/><center>- &part; -</center><br/>
 <center><font face='Arial' size='-2' color='#444444'>
