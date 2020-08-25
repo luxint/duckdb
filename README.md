@@ -96,6 +96,21 @@ Sub-Saharan Africa                |Nigeria     |Offline   |   2467203|   2703702
 Sub-Saharan Africa                |Nigeria     |Online    |   2677640|   2678009|   2760264|   2599663|   2520871|   2501459|   2663447|   1694314|
 </pre>
 
+<pre>&gt; (pivot &quot;(select * from sales where country like &apos;N%&apos;)&quot; &quot;region, country&quot; &quot;sales_channel&quot; &quot;order_date as orders, total_revenue as avg_revenue&quot; &quot;count, avg&quot;)
+                                  |SALES_CHANN~|Offline   |Offline    |Online    |Online     |
+REGION                            |COUNTRY     |orders    |avg_revenue|orders    |avg_revenue|
+----------------------------------|------------|-------   |-----------|------    |-----------|
+Asia                              |Nepal       |      4033|    1312809|      4109|    1318191|
+Asia                              |North Korea |      4010|    1331013|      4049|    1325554|
+Australia and Oceania             |Nauru       |      3974|    1320193|      4003|    1324690|
+Australia and Oceania             |New Zealand |      4138|    1335157|      4138|    1317391|
+Central America and the Caribbean |Nicaragua   |      4016|    1317127|      4035|    1350123|
+Europe                            |Netherlands |      4106|    1317491|      4052|    1307760|
+Europe                            |Norway      |      4156|    1351320|      4039|    1318156|
+Sub-Saharan Africa                |Namibia     |      3971|    1352107|      4172|    1320427|
+Sub-Saharan Africa                |Niger       |      4102|    1329495|      4001|    1338779|
+Sub-Saharan Africa                |Nigeria     |      4009|    1339594|      4024|    1351274|
+</pre>
 
 See documentation: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/index.html
 
