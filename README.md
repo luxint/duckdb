@@ -1,4 +1,4 @@
-# duckdb
+# duck & pivot
 newLISP bindings for [DuckDB](https://duckdb.org/), an embeddable SQL OLAP database management system.
 In practice duckdb is a lot like SQLITE and you can use most of the same SQL syntax and functions but instead 
 of row based duckdb is columnar based, which means queries are very fast. It also includes so some very easy and fast csv
