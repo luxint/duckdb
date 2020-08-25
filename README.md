@@ -112,5 +112,7 @@ Sub-Saharan Africa                |Niger       |      4102|    1329495|      400
 Sub-Saharan Africa                |Nigeria     |      4009|    1339594|      4024|    1351274|
 </pre>
 
-See documentation: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/index.html
+See documentation for duck: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/duck.lsp.html
+
+See documentation for pivot: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/pivot.lsp.html
 
