@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "HTML 4.01 Transitional">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>pivot.lsp</title>
+
+<link rel="stylesheet" type="text/css" href="newlispdoc.css" />
+</head>
+
+<body style="margin: 20px;" text="#111111" bgcolor="#FFFFFF" 
+            link="#376590" vlink="#551A8B" alink="#ffAA28">
+<blockquote>
+<center><h1>pivot.lsp</h1></center>
+<p><a href="index.html">Module index</a></p><br/>
+<h2>Module:&nbsp;duckpivot.lsp</h2><p>database interface modules</p>
+<b>Version: </b>0.1 initial version 19 july 2020<br/>
+
+ <h2>Module for duckdb pivot command</h2>
+ To use this module include the following <tt>load</tt> statement at the
+ beginning of the program file:
+ <pre>
+ (load "/usr/local/share/duckdb/duckpivot.lsp")
+ </pre>
+ Test the module:
+ <pre>
+ (test-duckpivot)
+ </pre>
+
+
+
+
+<br/><br/><center>&sect;</center><br/>
+<a name="_pivot"></a><h3><font color=#CC0000>pivot</font></h3>
+<b>syntax: (<font color=#CC0000>pivot</font> <em>str-table</em> <em>str-rows</em> <em>str-columns</em> <em>str-values</em> [<em>str-aggregate functions</em> <em>bool-pretty-print</em>])</b><br/>
+<b>parameter: </b><em>str-table</em> -  table name or subquery which must be between parentheses<br/>
+<b>parameter: </b><em>str-rows</em> - 1 or more comma & space  seperated string  of row fields<br/>
+<b>parameter: </b><str-colums - 1 or more comma & space  seperated string  of column fields, you can also use functions  like extract(<tt>year</tt> from field) and aliases with ' as ' <br/>
+<b>parameter: </b>(str-values> - 1 or more comma and space seperated string of (probably numeric) fields, you can also put in calculations, functions and aliases with ' as '<br/>
+<b>parameter: </b><str-aggregate - functions> optional string of comma and space seperated aggregation function: sum, max, min, count, avg, defaults to sum<br/>
+<b>parameter: </b><em>bool-pretty-print</em> - optional, if true will print a pivottable to the terminal, if nil will return a list of lists with results, default is true <br/>
+<p><b>return: </b>a <tt>pivoted</tt> list or pretty-printed pivot-table with header</p>
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+	
+
+<br/><br/><center>- &part; -</center><br/>
+<center><font face='Arial' size='-2' color='#444444'>
+generated with <a href="http://newlisp.org">newLISP</a>&nbsp;
+and <a href="http://newlisp.org/newLISPdoc.html">newLISPdoc</a>
+</font></center>
+</blockquote>
+</body>
+</html>
