@@ -70,7 +70,31 @@ Sub-Saharan Africa                |Offline   | 127394459| 129287908| 129838757| 
 Sub-Saharan Africa                |Online    | 128192828| 130064238| 128214627| 128605432| 127640421| 128422272| 129012870|  74006492|
 </pre>
 
-
+<pre>&gt; (pivot &quot;(select * from sales where country like &apos;N%&apos;)&quot; &quot;region, country, sales_channel&quot; &quot;extract(&apos;year&apos; from order_date) as years&quot; &quot;units_sold&quot;)
+                                  |            |YEARS     |2010      |2011      |2012      |2013      |2014      |2015      |2016      |2017      |
+REGION                            |COUNTRY     |SALES_CHA~|units_sold|units_sold|units_sold|units_sold|units_sold|units_sold|units_sold|units_sold|
+----------------------------------|------------|--------  |----------|----------|----------|----------|----------|----------|----------|----------|
+Asia                              |Nepal       |Offline   |   2636874|   2545253|   2566029|   2686264|   2636642|   2443001|   2689804|   1624166|
+Asia                              |Nepal       |Online    |   2616712|   2543229|   2780224|   2819988|   2748969|   2615675|   2796795|   1560465|
+Asia                              |North Korea |Offline   |   2559530|   2712558|   2666307|   2560877|   2839031|   2647753|   2598481|   1481824|
+Asia                              |North Korea |Online    |   2713440|   2564453|   2702850|   2648516|   2743694|   2689818|   2570638|   1549521|
+Australia and Oceania             |Nauru       |Offline   |   2493514|   2693936|   2704472|   2695096|   2579598|   2715988|   2643822|   1416968|
+Australia and Oceania             |Nauru       |Online    |   2763751|   2351701|   2624333|   2826663|   2503948|   2585632|   2673008|   1540149|
+Australia and Oceania             |New Zealand |Offline   |   2754750|   2671200|   2946205|   2570856|   2924049|   2648371|   2664845|   1617100|
+Australia and Oceania             |New Zealand |Online    |   2560266|   2768616|   2813812|   2836630|   2596871|   2821694|   2672283|   1708252|
+Central America and the Caribbean |Nicaragua   |Offline   |   2518914|   2624712|   2531085|   2723418|   2750794|   2577176|   2569984|   1564827|
+Central America and the Caribbean |Nicaragua   |Online    |   2726017|   2650735|   2843632|   2626527|   2714827|   2830600|   2699966|   1407199|
+Europe                            |Netherlands |Offline   |   2749106|   2797045|   2539947|   2605732|   2639907|   2601971|   2765823|   1574502|
+Europe                            |Netherlands |Online    |   2856465|   2698682|   2773469|   2338133|   2929124|   2558309|   2516159|   1569682|
+Europe                            |Norway      |Offline   |   2719708|   2802129|   2774850|   2657337|   2694623|   2734524|   2875907|   1529589|
+Europe                            |Norway      |Online    |   2535312|   2559034|   2696699|   2777857|   2568460|   2601033|   2767511|   1529513|
+Sub-Saharan Africa                |Namibia     |Offline   |   2577423|   2634613|   2678963|   2678889|   2555988|   2579300|   2627597|   1556092|
+Sub-Saharan Africa                |Namibia     |Online    |   2722169|   2771930|   2664748|   2825909|   2689713|   2849257|   2823632|   1578482|
+Sub-Saharan Africa                |Niger       |Offline   |   2541614|   2516827|   2708595|   2661975|   2794909|   2754812|   2901542|   1569193|
+Sub-Saharan Africa                |Niger       |Online    |   2704701|   2661776|   2578637|   2778107|   2478880|   2625911|   2706882|   1434739|
+Sub-Saharan Africa                |Nigeria     |Offline   |   2467203|   2703702|   2656639|   2863712|   2590780|   2788497|   2634856|   1501607|
+Sub-Saharan Africa                |Nigeria     |Online    |   2677640|   2678009|   2760264|   2599663|   2520871|   2501459|   2663447|   1694314|
+</pre>
 
 
 See documentation: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/index.html
