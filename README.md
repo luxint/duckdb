@@ -8,6 +8,10 @@ As Duckdb is still in early stages (pre 1.0) these bindings may break with older
 
 In these bindings i've added a pivot command, which wil give you pivot functionality like in excel but this one will support millions of lines/records and sub-second responses!
 
+Documentation for duck: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/duck.lsp.html
+
+Documentation for pivot: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/pivot.lsp.html
+
 So what do you need to install to get this working?
   1. Install [newLISP](http://www.newlisp.org/)
   2. Compile a version of duckdb from [github](https://github.com/cwida/duckdb)
@@ -111,8 +115,4 @@ Sub-Saharan Africa                |Namibia     |      3971|    1352107|      417
 Sub-Saharan Africa                |Niger       |      4102|    1329495|      4001|    1338779|
 Sub-Saharan Africa                |Nigeria     |      4009|    1339594|      4024|    1351274|
 </pre>
-
-See documentation for duck: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/duck.lsp.html
-
-See documentation for pivot: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/pivot.lsp.html
 
