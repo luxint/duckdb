@@ -6,7 +6,7 @@
 ;;
 ;; <h3> "DuckDB is an embeddable SQL OLAP database management system" </h3>
 ;;
-;; Look at https://duckdb.org for a detailed desriptions and documentation
+;; Look at https://duckdb.org for detailed desription and documentation.
 ;;
 ;; To use this module include the following 'load' statement at the
 ;; beginning of the program file:
@@ -22,20 +22,17 @@
 (context 'duck)
 
 ;; You need the DuckDB C dynamic library.
-;; Download from https://duckdb.org/docs/installation/ for your OS
-;; See below where the module looks for the library, change as desired.
+;; See compilation instructions  on https://duckdb.org/docs/installation/ for your OS
+;; These bindings have been tested against version compiled on 23 aug 2020, however because
+;; this is a pre 1.0 release, anything may break.  
+;; Looks for the dynamic library in /home/duckdb/ change as desired
 ;;
-;; "/usr/local/lib/libduckdb.so"  Linux
-;;
-;; "/usr/local/share/duckdb/libduckdb.dylib"  Mac OSX
-;;
-;; "libduckdb.dll"  Windows DLL path and current directory
-;;
+(set 'home (env "HOME"))
 (set 'files (list 
-    "/usr/local/lib/libduckdb.so" ; Linux
-    "/usr/local/share/duckdb/libduckdb.dylib" ; Mac OSX
-    "libduckdb.dll" ; Windows DLL path and current directory
-    (string (env "PROGRAMFILES") "/duckdb/libduckdb.dll"))) ; Windows duckdb std install ??
+    (string  home  "/duckdb/libduckdb.so") ; Linux
+    (string home "/duckdb/libduckdb.dylib") ; Mac OSX
+    (string home "/duckdb/libduckdb.dll") ; Windows ?
+   )) 
 
 (set 'lib (files (or
 		       (find true (map file? files)) 
@@ -53,7 +50,9 @@
 		DUCKDB_TYPE_TIMESTAMP ;8
 		DUCKDB_TYPE_DATE      ;9
 		DUCKDB_TYPE_TIME      ;10
-		DUCKDB_TYPE_VARCHAR ));11 
+        DUCKDB_TYPE_INTERVAL, ;11
+        DUCKDB_TYPE_HUGEINT ; 12
+		DUCKDB_TYPE_VARCHAR )); 13
 
 ; globally used vars and constants
 
@@ -106,8 +105,8 @@
 	(set 'db nil)
 	(duckdb_close dbp))
 
-;; Creates a connection to the specified database. [OUT: connection]
-;; duckdb_state duckdb_connect(duckdb_database database, duckdb_connection *out_connection);
+; Creates a connection to the specified database. [OUT: connection]
+; duckdb_state duckdb_connect(duckdb_database database, duckdb_connection *out_connection);
 (import lib "duckdb_connect" "cdecl")
 
 (define (connect)
@@ -199,22 +198,24 @@
 	(cond
 		((and (>= type 1) (<= type 5))
 			(get-int64 (address result) col row))
+ 		((= type 12)
+			(bigint (get-varchar (address result) col row)))
  		((and (>= type 6) (<= type 7))
 			(float (get-varchar (address result) col row)))
- 		((and (>= type 8) (<= type 11))
+ 		((and (>= type 8) (<= type 13))
 			(get-varchar (address result) col row))
 		(true nil)))
 
-;; default functor 
+; default functor 
 (define duck:duck sql) 
 
-;; @syntax (duck:columns <table-name>)
+;; @syntax (duck:columns <str-table-name>)
 ;; @return A list of all columns with types of the table
 ;; Describes table with all columns
 ;; Returns list with name of column, type,is nullable (yes/no), is key(1/0), default value, extra 
 
 (define (columns table)
-	(duck:sql (string "describe " table " ;")))
+	(map (fn(x) (x 0 2)) (duck:sql (string "describe " table " ;"))))
 
 ;; @syntax (duck:tables)
 ;; @return A list of table names.
@@ -228,7 +229,8 @@
 ;; Returns a list of column header names for the last query. This is
 ;; a function wrapper around the internal variable <tt>duck:col-names</tt>.
 
-(define (colnames) col-names)
+(define (colnames) 
+duck:col-names)
 
 ;; @syntax (duck:coltypes)
 ;; @return A list of column type names.
@@ -237,14 +239,21 @@
 (define (coltypes)
 	(map (fn(x) (12 (string (DUCKDB_TYPES x)))) col-types))
 
-;; @syntax (duck:create-from-csv <csv-file> <table-name>)
+;; @syntax (duck:create-from-csv <str csv-file> <str table-name> [<str dateformat>])
 ;; fast csv import, will create new table and guess csv delimiter and types of columns
- 
-(define (create-from-csv file table)
-	(duck:sql (string "create table " table " as select * from read_csv_auto('" file "');")))
+;; optionally define dateformat , defaults to "%d-%m-%Y"
 
-;; @syntax (duck:import-from-csv <file> <table-name> [<delimiter> <header>])
-;; fast csv import into existing table, optionally set delimiter, defaults to comma. 
+(define (create-from-csv file table (dateformat "%d-%m-%Y"))
+	(duck:sql (string "create table " table " as select * from read_csv_auto('" file "',dateformat='" dateformat"');"))
+	(dolist (x (duck:columns table))
+		(duck:sql (string "alter table " table " rename  \"" x "\" to " (replace " " x "_") ";")))
+	(duck (string  "describe " table ";")) 
+)
+  
+
+;; @syntax (duck:import-from-csv <file> <str-table-name> [<str-delimiter> <header>])
+;; fast csv import into existing table 
+;; optionally set delimiter, defaults to comma. 
 ;; optionally indicate if the file has a header line, defaults to true
 
 (define (import-from-csv file table (del ",") (header true))
@@ -252,14 +261,15 @@
 		(duck:sql (string "copy " table " from '" file "' (DELIMITER '" del "', HEADER );"))  
     (duck:sql (string "copy " table " from '" file "' (DELIMITER '" del "');"))))
 
-;; @syntax (duck:export-to-csv <file> <table> [<delimiter> <header>])
-;; export table to csv file, optionally set delimiter, defaults to comma). 
+;; @syntax (duck:export-to-csv <str-file> <str-table> [<str-delimiter> <header>])
+;; export table to csv file 
+;; optionally set delimiter, defaults to comma). 
 ;; optionally indicate if a header line with column names is included, defaults to true
 
 (define (export-to-csv file table (del ",") (header true))
 	(if header
 		(duck:sql (string "copy " table " to '" file "' (DELIMITER '" del "', HEADER );"))  
-    (duck:sql (string "copy " table " to '" file "' (DELIMITER '" del "');"))))
+        (duck:sql (string "copy " table " to '" file "' (DELIMITER '" del "');"))))
 
 ; utility functons for escaping quotes and removing backslashes in strings
 
@@ -272,7 +282,7 @@
 ; remove slash
 (define (rem-slash str)
 	(if (string? str)
-	  (replace "\\" str "")
+	  (replace "\\\"" str (char 34) )
 		str))
 
 (context 'MAIN)
