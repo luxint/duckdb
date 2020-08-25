@@ -6,7 +6,7 @@ import functions.
 
 As Duckdb is still in early stages (pre 1.0) these bindings may break with older/newer versions, these bindings are using a dynamic library which was compiled on 23 augustus 2020, anything earlier or later may not work, so please be warned!
 
-In these bindings i've added a pivot command, which wil give you pivot functionality like in excel but this one will support millions of lines/records and sub-second responses! See below example with a csv file with 1.5 M lines from [http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/]
+In these bindings i've added a pivot command, which wil give you pivot functionality like in excel but this one will support millions of lines/records and sub-second responses! See below example with a csv file with 1.5 M lines from [http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/]. Importing into a table takes 1.5 seconds, subsequent querying/pivotting (actually two queries) takes 0.5 seconds.
 
 
 Documentation for duck: https://htmlpreview.github.io/?https://github.com/luxint/duckdb/master/blob/doc/duck.lsp.html
