@@ -17,7 +17,7 @@ So what do you need to install to get this working?
   1. Install [newLISP](http://www.newlisp.org/)
   2. Compile a version of duckdb from [github](https://github.com/cwida/duckdb)
   3. Create a duckdb directory in your home directory
-  4. In this directory put the generated duckdb.so|dll|dynlib and duck.lsp and pivot.lsp 
+  4. In this directory put  and duck.lsp, pivot.lsp and the generated duckdb.so|dll|dynlib library.
   5. And then a typical workflow could look like this:
 
 <pre><font color="#4E9A06"><b>ferry@hal</b></font>:<font color="#3465A4"><b>~/duckdb</b></font>$ newlisp pivot.lsp
