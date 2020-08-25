@@ -6,7 +6,7 @@ import functions.
 
 As Duckdb is still in early stages (pre 1.0) these bindings may break with older/newer versions, these bindings are using a dynamic library which i compiled on 23 augustus 2020, anything earlier or later may not work, so please be warned!
 
-In these bindings've added a pivot command, which wil give you pivot functionality like in e and  but this one will support millions of lines/records!
+In these bindings've added a pivot command, which wil give you pivot functionality like in excel but this one will support millions of lines/records and sub-second responses!
 
 So what do you need to install to get this working?
   1. Install [newLISP](http://www.newlisp.org/)
