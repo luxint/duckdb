@@ -20,7 +20,7 @@ So what do you need to install to get this working?
   4. In this directory put duck.lsp, pivot.lsp and the libduckdb.so|dll|dynlib library.
   5. And then a typical workflow could look like this:
 
-<pre><font color="#4E9A06"><b>ferry@hal</b></font>:<font color="#3465A4"><b>~/duckdb</b></font>$ newlisp pivot.lsp
+<pre><font color="#4E9A06"><b>user@computer</b></font>:<font color="#3465A4"><b>~/duckdb</b></font>$ newlisp pivot.lsp
 newLISP v.10.7.5 64-bit on Linux IPv4/6 UTF-8 libffi, options: newlisp -h
 
 &gt; (duck:open)
